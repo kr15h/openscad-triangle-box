@@ -1,30 +1,19 @@
-use <base.scad>;
+use <modules.scad>;
 
 boxRadius = 100;
 boxHeight = 35;
 boxWallThickness = 10;
 innerCornerRadius = 5;
 capHeight = 10;
-capWallThickness = 10.2;
+capWallThickness = 10.5;
 
 // Draw box
-translate([boxRadius, -boxRadius, 0])
-  text("box", halign="center");
-
 projection(cut=true) 
-  translate([boxRadius,0,-20])
+  translate([0,0,-20])
     drawBox(boxRadius, boxHeight, boxWallThickness, innerCornerRadius);
 
 // Draw cap
-translate([-boxRadius, -boxRadius, 0])
-  text("cap", halign="center");
-
-difference(){
-  projection(cut = false) 
-    translate([-boxRadius,0,0])
-      drawCap(boxRadius, capHeight, 0, 0, 0, capWallThickness, innerCornerRadius);
-
-  projection(cut = true) 
-    translate([-boxRadius,0,1])
-      drawCap(boxRadius, capHeight, 0, 0, 0, capWallThickness, innerCornerRadius);
-}
+// Notice that you have to remove the wall thickness difference between the box wall thickness and cap wall thickness from the innerCornerRadius
+projection(cut = true) 
+  translate([0,0,1])
+    drawCap(boxRadius, capHeight, 0, 0, 0, capWallThickness, innerCornerRadius - (capWallThickness - boxWallThickness));
